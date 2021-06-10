@@ -36,7 +36,7 @@ def classify(text):
         return topMatch
     else:
         response.raise_for_status()
-strname='비행기#7009'
+strname='봇 이름'
 
 status=cycle(['도움말은 !help''패치노트는 !patch'])
 client=commands.Bot(command_prefix='!',help_command=None)
@@ -58,37 +58,15 @@ async def on_message(message):
     question=str(message.content)
     answer=classify(message.content)
     if client.user.mentioned_in(message):
-        c=str(message.content)
-        if(c[0]=='!'):
-            print(1)
-            return
         label = answer["class_name"]
         confidence = answer["confidence"]
         print(label+':'+str(confidence))
         if(confidence<50):
             await message.channel.send('봇이 켜지지 않았거나 모호한 질문입니다.')
             return
-        if(label=='time'):
-            now=datetime.datetime.now()
-            await message.channel.send(f'{str(now.year)}년 {str(now.month)}월 {str(now.day)}일 {str(now.hour)}시 {str(now.minute)}분입니다.')
-        elif(label=='nalsee'):
-            html = requests.get('https://search.naver.com/search.naver?query=날씨')
-            soup = BeautifulSoup(html.text, 'html.parser')
-            data1 = soup.find('div', {'class': 'weather_box'})
-            find_address = data1.find('span', {'class':'btn_select'}).text
-            find_currenttemp = data1.find('span',{'class': 'todaytemp'}).text
-            data2 = data1.findAll('dd')
-            find_dust = data2[0].find('span', {'class':'num'}).text
-            find_ultra_dust = data2[1].find('span', {'class':'num'}).text
-            find_ozone = data2[2].find('span', {'class':'num'}).text
-            await message.channel.send(f'현재 위치: {find_address}\n현재 온도: {find_currenttemp}℃\n현재 미세먼지: {find_dust}\n현재 초미세먼지: {find_ultra_dust}\n현재 오존 지수: {find_ozone}')
-        elif(label=='search'):
-            await message.channel.send('안해')
-        elif(label=='greet'):
-            await message.channel.send('안녕하세요! 저는 비행기입니다.')
-        elif(label=='hunger'):
-            await message.channel.send('저도 배고파요')
-        elif(label=='who'):
-            await message.channel.send('저는 비행기라고 하는 봇입니다.')
+        if(label=='a'):
+            await message.channel.send('a')
+        elif(label=='b'):
+            await message.channel.send('b')
 
 client.run('ODMwNzI0OTU5NTc5OTMwNjM2.YHK26A.RsSnp7Arj9kkczelYR5phvi8WI4')
